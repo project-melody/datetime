@@ -12,6 +12,18 @@ use Datetime\Datetime;
  */
 class DatetimeTest extends \PHPUnit_Framework_TestCase {
     
+
+    /**
+     * @dataProvider provider
+     */ 
+    public function testAddBusinessDays($start, $businessDays, $expectedResult)
+    {
+        $date = new Datetime($start);
+        $date->addBusinessDays($businessDays);
+        $result = $date->format('Y-m-d');
+        $this->assertEquals($expectedResult, $result);
+    }
+
     /**
      * @dataProvider providerWithHolydays
      */
@@ -30,21 +42,33 @@ class DatetimeTest extends \PHPUnit_Framework_TestCase {
 
         $date->addBusinessDaysWithHolydays($businessDays);
 
-        $result = $date->format('d/m/Y');
+        $result = $date->format('Y-m-d');
 
         $this->assertEquals($expectedResult, $result);
     }
 
     
-    public function providerWithHolydays(){
-        $provide[] = array('2012-09-20', 3, '25/09/2012');
-        $provide[] = array('2012-09-22', 3, '26/09/2012');
-        $provide[] = array('2012-09-20', 10, '04/10/2012');
-        $provide[] = array('2012-09-20', 15, '11/10/2012');
-        $provide[] = array('2012-09-22', 9, '04/10/2012');
-        $provide[] = array('2012-12-23', 2, '27/12/2012');
-        $provide[] = array('2013-12-22', 2, '26/12/2013');
-        $provide[] = array('2012-12-22', 4, '02/01/2013');
+    public function providerWithHolydays()
+    {
+        $provide[] = array('2012-09-20', 3, '2012-09-25');
+        $provide[] = array('2012-09-22', 3, '2012-09-26');
+        $provide[] = array('2012-09-20', 10, '2012-10-04');
+        $provide[] = array('2012-09-20', 15, '2012-10-11');
+        $provide[] = array('2012-09-22', 9, '2012-10-04');
+        $provide[] = array('2012-12-23', 2, '2012-12-27');
+        $provide[] = array('2013-12-22', 2, '2013-12-26');
+        $provide[] = array('2012-12-22', 4, '2013-01-02');
+
+        return $provide;
+    }
+
+    public function provider()
+    {
+        $provide[] = array('2012-09-20', 3, '2012-09-25');
+        $provide[] = array('2012-09-22', 3, '2012-09-27');
+        $provide[] = array('2012-09-20', 10, '2012-10-04');
+        $provide[] = array('2012-09-20', 15, '2012-10-11');
+        $provide[] = array('2012-09-22', 9, '2012-10-05');
 
         return $provide;
     }
