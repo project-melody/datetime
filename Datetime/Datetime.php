@@ -21,19 +21,29 @@ class DateTime extends \DateTime
     public function setHolydays($holydays)
     {
         $this->holydays = $holydays;
-    }
+    }  
 
+    /**
+     * Modify DateTime Instance to add normal days.
+     */ 
+    private function addDays($days) {
+        $this->modify("+ $days day");
+    }
 
     /**
      * Generates the starting date based on the day of the week 
      */ 
     private function startDate()
-    {
+    {   
+        $extraDays = 0;
+
         if ($this->format('w') == 6) {
-            $this->modify('+1 day');
-        } elseif ($this->format('w') == 7) {
-            $this->modify('+2 day');
+            $extraDays = 1;
+        } else if ($this->format('w') == 7) {
+            $extraDays = 2;
         }
+
+        $this->addDays($extraDays);
     }
 
     
@@ -46,19 +56,16 @@ class DateTime extends \DateTime
         if(!$holydays){
             $this->startDate();
         }
+
+        $addedDays = $businessDays;
         
-        $startDate = clone $this;
-
-        $this->modify('+'.$businessDays.' day');
-
-        $every5Days = floor($businessDays / 5) * 2;
-
-        $this->modify('+'.$every5Days.' day');
-
-        if (($businessDays % 5) + $startDate->format('w') >= 6) {
-            $this->modify('+2 day');
+        if (($businessDays % 5) + $this->format('w') >= 6) {
+            $addedDays += 2;
         }
-
+       
+        $addedDays += floor($businessDays / 5) * 2;
+       
+        $this->addDays($addedDays);
     }
 
     /**
