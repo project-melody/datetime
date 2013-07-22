@@ -41,8 +41,12 @@ class DateTime extends \DateTime
      * Add business days, considering saturnday and sunday as non-business days
      * @param int $businessDays
      */ 
-    public function addBusinessDays($businessDays)
-    {
+    public function addBusinessDays($businessDays, $holydays = false)
+    {   
+        if(!$holydays){
+            $this->startDate();
+        }
+        
         $startDate = clone $this;
 
         $this->modify('+'.$businessDays.' day');
@@ -70,7 +74,7 @@ class DateTime extends \DateTime
 
         while ($businessDays > 1) {
             
-            $startDate->addBusinessDays(1);
+            $startDate->addBusinessDays(1, true);
             
             if (!in_array($startDate->format('Y-m-d'), $this->holydays)) {
                  $businessDays--;
@@ -79,7 +83,7 @@ class DateTime extends \DateTime
             }
         }
 
-        $this->addBusinessDays($addDays);
+        $this->addBusinessDays($addDays, true);
 
         if (in_array($this->format('Y-m-d'), $this->holydays)) {
             $this->addBusinessDaysWithHolydays(1);
