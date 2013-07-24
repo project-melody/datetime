@@ -38,6 +38,9 @@ class DatetimeTest extends \PHPUnit_Framework_TestCase {
             '2013-01-01',
             '2013-12-24',
             '2013-12-25',
+            '2013-07-23',
+            '2013-07-24',
+            '2013-07-29',
         ));
 
         $date->addBusinessDaysWithHolydays($businessDays);
@@ -59,6 +62,7 @@ class DatetimeTest extends \PHPUnit_Framework_TestCase {
             array('2012-12-23', 2, '2012-12-27'),
             array('2013-12-22', 2, '2013-12-26'),
             array('2012-12-22', 4, '2013-01-02'),
+            array('2013-07-22', 3, '2013-07-30'),
         );
     }
 
