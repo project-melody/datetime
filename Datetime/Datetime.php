@@ -61,7 +61,8 @@ class DateTime extends \DateTime
         if (!$holydays) {
             $this->startDate();
         }
-        $addedDays = $this->getConvertedNormalDays($businessDays);        
+
+        $addedDays = $this->getConvertedToNormalDays($businessDays);        
         $this->addDays($addedDays);
     }
 
@@ -69,13 +70,16 @@ class DateTime extends \DateTime
      * @param int $businessDays
      * @return int
      */
-    private function getConvertedNormalDays($businessDays)
+    private function getConvertedToNormalDays($businessDays)
     {
         $days = $businessDays;
+        
         if (($businessDays % 5) + $this->format('w') >= self::SATURDAY) {
             $days += 2;
         }
+        
         $days += floor($businessDays / 5) * 2;
+
         return $days;
     }
 
@@ -87,19 +91,20 @@ class DateTime extends \DateTime
     {
         $this->startDate();
 
-        $startDate = clone $this;
+        $clone = clone $this;
         $addDays = $businessDays;
 
         while ($businessDays >= 1) {
+            $clone->addBusinessDays(1, true);
             
-            $startDate->addBusinessDays(1, true);
-            
-            if (!$this->isHolyday($startDate)) {
-                 $businessDays--;
+            if (!$this->isHolyday($clone)) {
+                $businessDays--;
                 continue;
             }
+
             $addDays++;
         }
+
         $this->addBusinessDays($addDays, true);
     }
 
