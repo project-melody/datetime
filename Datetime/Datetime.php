@@ -15,55 +15,40 @@ class DateTime extends \DateTime
 
     /**
      * Define the holydays that will be considerated on the algorithm
-     */ 
+     */
     private $holydays = array();
 
     /**
      * Set Holydays
      * @param array $holydays 
-     */ 
+     */
     public function setHolydays($holydays)
     {
         $this->holydays = $holydays;
-    }  
+    }
 
     /**
      * Modify DateTime Instance to add normal days.
-     */ 
-    protected function addDays($days) {
+     */
+    protected function addDays($days)
+    {
         $this->modify("+ $days day");
     }
 
     /**
      * Generates the initial date based on the day of the week 
-     */ 
+     */
     protected function initialDate()
-    {   
+    {
         $extraDays = 0;
 
         if ($this->format('w') == self::SATURDAY) {
             $extraDays = 1;
-        } else if ($this->format('w') == self::SUNDAY) {
+        } elseif ($this->format('w') == self::SUNDAY) {
             $extraDays = 2;
         }
 
         $this->addDays($extraDays);
-    }
-
-    
-    /**
-     * add business days, considering saturnday and sunday as non-business days
-     * @param int $businessDays
-     * @param bool $holydays
-     */ 
-    public function addBusinessDays($businessDays, $holydays = false)
-    {   
-        if (!$holydays) {
-            $this->initialDate();
-        }
-
-        $addedDays = $this->getConvertedToNormalDays($businessDays);        
-        $this->addDays($addedDays);
     }
 
     /**
@@ -84,9 +69,38 @@ class DateTime extends \DateTime
     }
 
     /**
+     * @param DateTime $date
+     * @return bool
+     */
+    protected function isHolyday(DateTime $date)
+    {
+        if (in_array($date->format('Y-m-d'), $this->holydays)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * add business days, considering saturnday and sunday as non-business days
+     * @param int $businessDays
+     * @param bool $holydays
+     */
+    public function addBusinessDays($businessDays, $holydays = false)
+    {
+        if (!$holydays) {
+            $this->initialDate();
+        }
+
+        $addedDays = $this->getConvertedToNormalDays($businessDays);
+        $this->addDays($addedDays);
+    }
+
+
+    /**
      * Add business days, considering saturgday, sunday and holydays as non-business days
      * @param int $businessDays
-     */ 
+     */
     public function addBusinessDaysWithHolydays($businessDays)
     {
         $this->initialDate();
@@ -106,18 +120,5 @@ class DateTime extends \DateTime
         }
 
         $this->addBusinessDays($addDays, true);
-    }
-
-    /**
-     * @param DateTime $date
-     * @return bool
-     */
-    protected function isHolyday(DateTime $date)
-    {
-        if (in_array($date->format('Y-m-d'), $this->holydays)) {
-            return true;
-        }
-
-        return false;
     }
 }
