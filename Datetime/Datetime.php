@@ -16,7 +16,7 @@ class DateTime extends \DateTime
     /**
      * Define the holydays that will be considerated on the algorithm
      */ 
-    private $holydays = array();
+    public static $holydays = array();
 
     /**
      * Set Holydays
@@ -30,14 +30,14 @@ class DateTime extends \DateTime
     /**
      * Modify DateTime Instance to add normal days.
      */ 
-    private function addDays($days) {
+    protected function addDays($days) {
         $this->modify("+ $days day");
     }
 
     /**
-     * Generates the starting date based on the day of the week 
+     * Generates the initial date based on the day of the week 
      */ 
-    private function startDate()
+    protected function initialDate()
     {   
         $extraDays = 0;
 
@@ -59,7 +59,7 @@ class DateTime extends \DateTime
     public function addBusinessDays($businessDays, $holydays = false)
     {   
         if (!$holydays) {
-            $this->startDate();
+            $this->initialDate();
         }
 
         $addedDays = $this->getConvertedToNormalDays($businessDays);        
@@ -70,7 +70,7 @@ class DateTime extends \DateTime
      * @param int $businessDays
      * @return int
      */
-    private function getConvertedToNormalDays($businessDays)
+    protected function getConvertedToNormalDays($businessDays)
     {
         $days = $businessDays;
         
@@ -84,12 +84,12 @@ class DateTime extends \DateTime
     }
 
     /**
-     * Add business days, considering saturnday, sunday and holydays as non-business days
+     * Add business days, considering saturday, sunday and holydays as non-business days
      * @param int $businessDays
      */ 
     public function addBusinessDaysWithHolydays($businessDays)
     {
-        $this->startDate();
+        $this->initialDate();
 
         $clone = clone $this;
         $addDays = $businessDays;
@@ -112,7 +112,7 @@ class DateTime extends \DateTime
      * @param DateTime $date
      * @return bool
      */
-    private function isHolyday(DateTime $date)
+    protected function isHolyday(DateTime $date)
     {
         if (in_array($date->format('Y-m-d'), $this->holydays)) {
             return true;
