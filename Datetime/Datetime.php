@@ -16,7 +16,7 @@ class DateTime extends \DateTime
     /**
      * Define the holydays that will be considerated on the algorithm
      */ 
-    public static $holydays = array();
+    private $holydays = array();
 
     /**
      * Set Holydays
@@ -84,7 +84,7 @@ class DateTime extends \DateTime
     }
 
     /**
-     * Add business days, considering saturday, sunday and holydays as non-business days
+     * Add business days, considering saturgday, sunday and holydays as non-business days
      * @param int $businessDays
      */ 
     public function addBusinessDaysWithHolydays($businessDays)
