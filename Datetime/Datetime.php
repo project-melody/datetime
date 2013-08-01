@@ -28,47 +28,6 @@ class DateTime extends \DateTime
     }
 
     /**
-     * Modify DateTime Instance to add normal days.
-     */
-    protected function addDays($days)
-    {
-        $this->modify("+ $days day");
-    }
-
-    /**
-     * Generates the initial date based on the day of the week 
-     */
-    protected function initialDate()
-    {
-        $extraDays = 0;
-
-        if ($this->format('w') == self::SATURDAY) {
-            $extraDays = 1;
-        } elseif ($this->format('w') == self::SUNDAY) {
-            $extraDays = 2;
-        }
-
-        $this->addDays($extraDays);
-    }
-
-    /**
-     * @param int $businessDays
-     * @return int
-     */
-    protected function getConvertedToNormalDays($businessDays)
-    {
-        $days = $businessDays;
-        
-        if (($businessDays % 5) + $this->format('w') >= self::SATURDAY) {
-            $days += 2;
-        }
-        
-        $days += floor($businessDays / 5) * 2;
-
-        return $days;
-    }
-
-    /**
      * @param DateTime $date
      * @return bool
      */
@@ -84,16 +43,10 @@ class DateTime extends \DateTime
     /**
      * add business days, considering saturnday and sunday as non-business days
      * @param int $businessDays
-     * @param bool $holydays
      */
-    public function addBusinessDays($businessDays, $holydays = false)
+    public function addBusinessDays($businessDays)
     {
-        if (!$holydays) {
-            $this->initialDate();
-        }
-
-        $addedDays = $this->getConvertedToNormalDays($businessDays);
-        $this->addDays($addedDays);
+        $this->modify("+ $businessDays Weekdays");
     }
 
 
@@ -103,13 +56,11 @@ class DateTime extends \DateTime
      */
     public function addBusinessDaysWithHolydays($businessDays)
     {
-        $this->initialDate();
-
         $clone = clone $this;
         $addDays = $businessDays;
 
         while ($businessDays >= 1) {
-            $clone->addBusinessDays(1, true);
+            $clone->addBusinessDays(1);
             
             if (!$this->isHolyday($clone)) {
                 $businessDays--;
