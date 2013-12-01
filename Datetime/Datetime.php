@@ -10,9 +10,6 @@ namespace Datetime;
 class DateTime extends \DateTime
 {
 
-    const SATURDAY  = 6;
-    const SUNDAY    = 7;
-
     /**
      * Define the holydays that will be considerated on the algorithm
      */
