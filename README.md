@@ -7,7 +7,7 @@ Melody Datetime
 Installation
 ------------
 
-The recommended way to install Melody Validation is [through
+The recommended way to install Melody DateTime is [through
 composer](http://getcomposer.org). Just create a `composer.json` file and
 run the `php composer.phar install` command to install it:
 ```json
@@ -21,7 +21,7 @@ run the `php composer.phar install` command to install it:
 Introduction
 ------------
 
-Importing Validator namespace:
+Importing DateTime namespace:
 ```php
 use Melody\DateTime\DateTime;
 ```
