@@ -1,16 +1,14 @@
 <?php
-namespace Test;
 
-require __DIR__.'/../Datetime/Datetime.php';
 
-use Datetime\Datetime;
+use Melody\DateTime\DateTime;
 
 /**
  * Testing class DateTimeTest to test DateTime Extension Class
  *
  * @author Levi Henrique <contato@leviferreira.com>
  */
-class DatetimeTest extends \PHPUnit_Framework_TestCase {
+class DateTimeTest extends \PHPUnit_Framework_TestCase {
     
 
     /**
@@ -18,7 +16,7 @@ class DatetimeTest extends \PHPUnit_Framework_TestCase {
      */ 
     public function testAddBusinessDays($start, $businessDays, $expectedResult)
     {
-        $date = new Datetime($start);
+        $date = new DateTime($start);
         $date->addBusinessDays($businessDays);
         $result = $date->format('Y-m-d');
         $this->assertEquals($expectedResult, $result);

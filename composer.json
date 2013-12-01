@@ -1,0 +1,21 @@
+{
+    "name": "leviferreira\/melody-validation",
+    "description": "PHP's DateTime extension",
+    "type": "library",
+    "license": "BSD Style",
+    "homepage": "https://github.com/leviferreira/melody-datetime",
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "authors": [
+        {
+            "name": "Levi Ferreira",
+            "email": "contato@leviferreira.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Melody\\DateTime": "src\/"
+        }
+    }
+}

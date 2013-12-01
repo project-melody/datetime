@@ -1,9 +1,10 @@
 <?php
 
-namespace Datetime;
+namespace Melody\Datetime;
 
 /**
- * DateTime extension class to add the function: addBussinessDays in PHP's Default DateTime Class
+ * DateTime extension class to add the function: addBussinessDays
+ * and addBusinessDaysWithHolydays in PHP's Default DateTime Class
  *
  * @author Levi Henrique <contato@leviferreira.com>
  */
