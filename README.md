@@ -48,10 +48,10 @@ Basic Usage
     $datetime = new DateTime();
     
     // Set a list of holidays that will be considered
-    $datetime->setHolydays(array('2013-12-02'));
+    $datetime->setHolidays(array('2013-12-02'));
 
     // Add two business days to a date, considering holidays as non-business days
-    $datetime->addBusinessDaysWithHolydays(2);
+    $datetime->addBusinessDaysWithHolidays(2);
 
     // Output: 2013-12-04 00:00:00
     echo $datetime->format('Y-m-d H:i:s');

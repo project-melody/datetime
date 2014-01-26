@@ -23,13 +23,13 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @dataProvider providerWithHolydays
+     * @dataProvider providerWithHolidays
      */
-    public function testAddBusinessDaysWithHolyDays($start, $businessDays, $expectedResult) 
+    public function testAddBusinessDaysWithHolidays($start, $businessDays, $expectedResult) 
     {
         $date = new DateTime($start);
         
-        $date->setHolydays(array(
+        $date->setHolidays(array(
             '2012-12-24',
             '2012-12-25',
             '2012-12-31',
@@ -41,7 +41,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
             '2013-07-29',
         ));
 
-        $date->addBusinessDaysWithHolydays($businessDays);
+        $date->addBusinessDaysWithHolidays($businessDays);
 
         $result = $date->format('Y-m-d');
 
@@ -49,7 +49,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
     }
 
     
-    public function providerWithHolydays()
+    public function providerWithHolidays()
     {
         return array(
             array('2012-09-20', 3, '2012-09-25'),
