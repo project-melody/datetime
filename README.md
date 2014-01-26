@@ -28,7 +28,7 @@ use Melody\DateTime\DateTime;
 
 Basic Usage
 -----------
-### Adding bussiness days to a date
+### Adding business days to a date
 ```php
     // Sets the datetime, will consider the 'now' date
     // for example: 2013-12-01 00:00:00
@@ -41,16 +41,16 @@ Basic Usage
     echo $datetime->format('Y-m-d H:i:s');
 ```
 
-### Adding bussiness days to a date, considering holydays
+### Adding business days to a date, considering holidays
 ```php
     // Sets the datetime, will consider the 'now' date
     // for example: 2013-12-01 00:00:00
     $datetime = new DateTime();
     
-    // Set a list of holydays that will be considered
+    // Set a list of holidays that will be considered
     $datetime->setHolydays(array('2013-12-02'));
 
-    // Add two business days to a date, considering holydays as non-business days
+    // Add two business days to a date, considering holidays as non-business days
     $datetime->addBusinessDaysWithHolydays(2);
 
     // Output: 2013-12-04 00:00:00
