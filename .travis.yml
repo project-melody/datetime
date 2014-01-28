@@ -1,11 +1,17 @@
 language: php
 
 before_script:
-  - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --dev
+  - composer selfupdate
+  - composer install
 
 php:
+  - "5.5"
   - "5.4"
   - "5.3"
+  - "hhvm"
 
-script: phpunit --colors --coverage-text --configuration tests/phpunit.xml.dist tests/
+script: phpunit
+
+matrix:
+    allow_failures:
+        - php: hhvm
