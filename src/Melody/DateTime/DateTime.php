@@ -3,8 +3,8 @@
 namespace Melody\Datetime;
 
 /**
- * DateTime extension class to add the function: addBussinessDays
- * and addBusinessDaysWithHolydays in PHP's Default DateTime Class
+ * DateTime extension class to add the function: addBusinessDays
+ * and addBusinessDaysWithHolidays in PHP's Default DateTime Class
  *
  * @author Levi Henrique <contato@leviferreira.com>
  */
@@ -12,26 +12,26 @@ class DateTime extends \DateTime
 {
 
     /**
-     * Define the holydays that will be considerated on the algorithm
+     * Define the holidays that will be considerated on the algorithm
      */
-    private $holydays = array();
+    private $holidays = array();
 
     /**
-     * Set Holydays
-     * @param array $holydays 
+     * Set Holidays
+     * @param array $holidays 
      */
-    public function setHolydays($holydays)
+    public function setHolidays($holidays)
     {
-        $this->holydays = $holydays;
+        $this->holidays = $holidays;
     }
 
     /**
      * @param DateTime $date
      * @return bool
      */
-    protected function isHolyday(DateTime $date)
+    protected function isHoliday(DateTime $date)
     {
-        if (in_array($date->format('Y-m-d'), $this->holydays)) {
+        if (in_array($date->format('Y-m-d'), $this->holidays)) {
             return true;
         }
 
@@ -49,10 +49,10 @@ class DateTime extends \DateTime
 
 
     /**
-     * Add business days, considering saturgday, sunday and holydays as non-business days
+     * Add business days, considering saturgday, sunday and holidays as non-business days
      * @param int $businessDays
      */
-    public function addBusinessDaysWithHolydays($businessDays)
+    public function addBusinessDaysWithHolidays($businessDays)
     {
         $clone = clone $this;
         $addDays = $businessDays;
@@ -60,7 +60,7 @@ class DateTime extends \DateTime
         while ($businessDays >= 1) {
             $clone->addBusinessDays(1);
             
-            if (!$this->isHolyday($clone)) {
+            if (!$this->isHoliday($clone)) {
                 $businessDays--;
                 continue;
             }
@@ -71,4 +71,3 @@ class DateTime extends \DateTime
         $this->addBusinessDays($addDays, true);
     }
 }
-
