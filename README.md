@@ -1,7 +1,7 @@
 Melody Datetime
 =================
 
-[![Build Status](https://secure.travis-ci.org/leviferreira/melody-datetime.png)](http://travis-ci.org/leviferreira/melody-datetime)
+[![Build Status](https://travis-ci.org/project-melody/datetime.png?branch=develop)](https://travis-ci.org/project-melody/datetime)
 
 
 Installation
