@@ -13,7 +13,7 @@ run the `php composer.phar install` command to install it:
 ```json
     {
         "require": {
-            "leviferreira/melody-datetime": "dev-master"
+            "project-melody/datetime": "dev-master"
         }
     }
 ```
