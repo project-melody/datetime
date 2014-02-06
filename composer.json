@@ -1,5 +1,5 @@
 {
-    "name": "leviferreira\/melody-datetime",
+    "name": "project-melody\/datetime",
     "description": "PHP's DateTime extension",
     "type": "library",
     "license": "BSD Style",
