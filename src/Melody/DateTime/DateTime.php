@@ -76,18 +76,22 @@ class DateTime extends \DateTime
      * @return bool
      * @throws \InvalidArgumentException|\Exception
      */
-    public function is($dateInString)
+    public function is($date)
     {
+        if ($date instanceof \DateTime) {
+            return ($this == $date);
+        }
+
         try {
-            $date = new DateTime($dateInString);
+            $dateObject = new DateTime($date);
         } catch (\Exception $e) {
             if (strpos($e->getMessage(), "Failed to parse time string")) {
-                throw new \InvalidArgumentException("Failed to parse time string ($dateInString)");
+                throw new \InvalidArgumentException("Failed to parse time string ($date)");
             }
 
             throw $e;
         }
 
-        return ($this == $date);
+        return ($this == $dateObject);
     }
 }

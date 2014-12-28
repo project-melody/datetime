@@ -118,4 +118,34 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     {
         (new DateTime())->is(new \stdClass());
     }
+
+    /**
+     * @dataProvider validDateObjectComparisonProvider
+     */
+    public function testTheMethodIsShouldReturnTrueIfADatetimeObjectIsEqualsToAnotherDatetimeObject(
+        $first,
+        $second
+    ) {
+        $this->assertTrue($first->is($second));
+    }
+
+    public function validDateObjectComparisonProvider()
+    {
+        return [
+            [new DateTime(date("Y") . "-12-01"), new \DateTime("12/01")],
+            [new DateTime(date("Y") . "-12-01"), new \DateTime(date("Y") . "/12/01")],
+            [new DateTime(date("Y") . "-12-01"), new \DateTime(date("Y") . "-12-01")],
+            [new DateTime(date("Y") . "-12-01"), new \DateTime(date("Y") . "-12-01 00:00:00")],
+            [new DateTime(date("Y") . "-12-01"), new \DateTime(date("Y") . "-12-01 00:00:00.000000")],
+            [new DateTime("today"), new \DateTime("today")],
+            [new DateTime(), new \DateTime("now")],
+            [new DateTime("now"), new \DateTime("now")],
+            [new Datetime("tomorrow midnight"), new \DateTime("tomorrow")],
+            [new Datetime("tomorrow midnight"), new \DateTime("+1 day 00:00:00")],
+            [new Datetime("tomorrow noon"), new \DateTime("+1 day 12:00:00")],
+            [new Datetime("yesterday midnight"), new \DateTime("yesterday")],
+            [new Datetime("yesterday midnight"), new \DateTime("-1 day 00:00:00")],
+            [new Datetime("yesterday noon"), new \DateTime("-1 day 12:00:00")],
+        ];
+    }
 }
