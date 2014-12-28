@@ -222,4 +222,67 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             ["10 seconds ago", "10 days ago"]
         ];
     }
+
+    /**
+     * @dataProvider validDateBetweenRangeProvider
+     */
+    public function testTheMethodIsBetweenShouldReturnTrueWhenADateStringIsBetweenTwoOthers($before, $actual, $after)
+    {
+        $this->assertTrue((new DateTime($actual))->isBetween($before, $after));
+    }
+
+    /**
+     * @dataProvider validDateBetweenRangeProvider
+     */
+    public function testTheMethodIsBetweenShouldReturnTrueWhenADateObjectIsBetweenTwoOthers($before, $actual, $after)
+    {
+        $this->assertTrue((new DateTime($actual))->isBetween(new DateTime($before), new DateTime($after)));
+    }
+
+    public function validDateBetweenRangeProvider()
+    {
+        return [
+            ["yesterday", "today", "tomorrow"],
+            ["-10 seconds", "now", "+10 seconds"],
+            ["October", "November", "December"],
+            ["today", "tomorrow", "+2 days"],
+            ["2014-12-12", "2014-12-13", "2014-12-14"],
+            ["2014-12-12 00:00:01", "2014-12-13 00:00:02", "2014-12-14 00:00:02"],
+            ["tomorrow", "today", "yesterday"],
+            ["tomorrow", "today", "yesterday"]
+        ];
+    }
+
+    /**
+     * @dataProvider invalidDateBetweenRangeProvider
+     */
+    public function testTheMethodIsBetweenShouldReturnFalseWhenADateStringIsNotBetweenTwoOthers(
+        $before,
+        $actual,
+        $after
+    ) {
+        $this->assertFalse((new DateTime($actual))->isBetween($before, $after));
+    }
+
+    /**
+     * @dataProvider invalidDateBetweenRangeProvider
+     */
+    public function testTheMethodIsBetweenShouldReturnFalseWhenADateObjectIsNotBetweenTwoOthers(
+        $before,
+        $actual,
+        $after
+    ) {
+        $this->assertFalse((new DateTime($actual))->isBetween(new DateTime($before), new DateTime($after)));
+    }
+
+    public function invalidDateBetweenRangeProvider()
+    {
+        return [
+            ["today", "yesterday", "tomorrow"],
+            ["October", "January", "December"],
+            ["now", "tomorrow", "yesterday"],
+            ["2014-12-12", "2014-12-14", "2014-12-13"],
+            ["2014-12-13 00:00:01", "2014-12-12 00:00:02", "2014-12-14 00:00:03"],
+        ];
+    }
 }

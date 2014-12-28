@@ -116,4 +116,21 @@ class DateTime extends \DateTime
 
         return ($this < $dateObject);
     }
+
+    public function isBetween($firstDate, $secondDate)
+    {
+        if (!$firstDate instanceof \DateTime) {
+            $firstDate = new DateTime($firstDate);
+        }
+
+        if (!$secondDate instanceof \DateTime) {
+            $secondDate = new DateTime($secondDate);
+        }
+
+        if ($this < $firstDate) {
+            return ($this < $firstDate && $this > $secondDate);
+        }
+
+        return ($this > $firstDate && $this < $secondDate);
+    }
 }
