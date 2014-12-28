@@ -130,7 +130,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider validAfterDateProvider
+     * @dataProvider validComparisonDateProvider
      */
     public function testTheMethodIsAfterShouldReturnTrueIfATimeStringIsAfterInTimeFromTheGivenString(
         $before,
@@ -140,7 +140,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider validAfterDateProvider
+     * @dataProvider validComparisonDateProvider
      */
     public function testTheMethodIsAfterShouldReturnFalseIfATimeStringIsNotAfterInTimeFromTheGivenString(
         $before,
@@ -150,7 +150,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider validAfterDateProvider
+     * @dataProvider validComparisonDateProvider
      */
     public function testTheMethodIsAfterShouldReturnTrueIfATimeStringIsAfterInTimeFromTheGivenObject(
         $before,
@@ -160,7 +160,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider validAfterDateProvider
+     * @dataProvider validComparisonDateProvider
      */
     public function testTheMethodIsAfterShouldReturnTrueIfATimeStringIsNotAfterInTimeFromTheGivenObject(
         $before,
@@ -169,7 +169,47 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse((new DateTime($after))->isAfter(new DateTime($before)));
     }
 
-    public function validAfterDateProvider()
+    /**
+     * @dataProvider validComparisonDateProvider
+     */
+    public function testTheMethodIsAfterShouldReturnTrueIfATimeStringIsBeforeInTimeFromTheGivenString(
+        $before,
+        $after
+    ) {
+        $this->assertTrue((new DateTime($after))->isBefore($before));
+    }
+
+    /**
+     * @dataProvider validComparisonDateProvider
+     */
+    public function testTheMethodIsAfterShouldReturnFalseIfATimeStringIsNotBeforeInTimeFromTheGivenString(
+        $before,
+        $after
+    ) {
+        $this->assertFalse((new DateTime($before))->isBefore($after));
+    }
+
+    /**
+     * @dataProvider validComparisonDateProvider
+     */
+    public function testTheMethodIsAfterShouldReturnTrueIfATimeStringIsBeforeInTimeFromTheGivenObject(
+        $before,
+        $after
+    ) {
+        $this->assertTrue((new DateTime($after))->isBefore(new DateTime($before)));
+    }
+
+    /**
+     * @dataProvider validComparisonDateProvider
+     */
+    public function testTheMethodIsAfterShouldReturnTrueIfATimeStringIsNotBeforeInTimeFromTheGivenObject(
+        $before,
+        $after
+    ) {
+        $this->assertFalse((new DateTime($before))->isBefore(new DateTime($after)));
+    }
+
+    public function validComparisonDateProvider()
     {
         return [
             ["tomorrow", "today"],
