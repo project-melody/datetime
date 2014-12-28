@@ -80,26 +80,36 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $first,
         $second
     ) {
-        $this->assertTrue($first->is($second));
+        $this->assertTrue((new DateTime($first))->is($second));
+    }
+
+    /**
+     * @dataProvider validDatesComparisonProvider
+     */
+    public function testTheMethodIsShouldReturnTrueIfADatetimeObjectIsEqualsToAnotherDatetimeObject(
+        $first,
+        $second
+    ) {
+        $this->assertTrue((new DateTime($first))->is(new DateTime($second)));
     }
 
     public function validDatesComparisonProvider()
     {
         return [
-            [new DateTime(date("Y") . "-12-01"), "12/01"],
-            [new DateTime(date("Y") . "-12-01"), date("Y") . "/12/01"],
-            [new DateTime(date("Y") . "-12-01"), date("Y") . "-12-01"],
-            [new DateTime(date("Y") . "-12-01"), date("Y") . "-12-01 00:00:00"],
-            [new DateTime(date("Y") . "-12-01"), date("Y") . "-12-01 00:00:00.000000"],
-            [new DateTime("today"), "today"],
-            [new DateTime(), "now"],
-            [new DateTime("now"), "now"],
-            [new Datetime("tomorrow midnight"), "tomorrow"],
-            [new Datetime("tomorrow midnight"), "+1 day 00:00:00"],
-            [new Datetime("tomorrow noon"), "+1 day 12:00:00"],
-            [new Datetime("yesterday midnight"), "yesterday"],
-            [new Datetime("yesterday midnight"), "-1 day 00:00:00"],
-            [new Datetime("yesterday noon"), "-1 day 12:00:00"],
+            [date("Y") . "-12-01", "12/01"],
+            [date("Y") . "-12-01", date("Y") . "/12/01"],
+            [date("Y") . "-12-01", date("Y") . "-12-01"],
+            [date("Y") . "-12-01", date("Y") . "-12-01 00:00:00"],
+            [date("Y") . "-12-01", date("Y") . "-12-01 00:00:00.000000"],
+            ["today", "today"],
+            ["", "now"],
+            ["now", "now"],
+            ["tomorrow midnight", "tomorrow"],
+            ["tomorrow midnight", "+1 day 00:00:00"],
+            ["tomorrow noon", "+1 day 12:00:00"],
+            ["yesterday midnight", "yesterday"],
+            ["yesterday midnight", "-1 day 00:00:00"],
+            ["yesterday noon", "-1 day 12:00:00"],
         ];
     }
 
@@ -120,32 +130,56 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider validDateObjectComparisonProvider
+     * @dataProvider validAfterDateProvider
      */
-    public function testTheMethodIsShouldReturnTrueIfADatetimeObjectIsEqualsToAnotherDatetimeObject(
-        $first,
-        $second
+    public function testTheMethodIsAfterShouldReturnTrueIfATimeStringIsAfterInTimeFromTheGivenString(
+        $before,
+        $after
     ) {
-        $this->assertTrue($first->is($second));
+        $this->assertTrue((new DateTime($before))->isAfter($after));
     }
 
-    public function validDateObjectComparisonProvider()
+    /**
+     * @dataProvider validAfterDateProvider
+     */
+    public function testTheMethodIsAfterShouldReturnFalseIfATimeStringIsNotAfterInTimeFromTheGivenString(
+        $before,
+        $after
+    ) {
+        $this->assertFalse((new DateTime($after))->isAfter($before));
+    }
+
+    /**
+     * @dataProvider validAfterDateProvider
+     */
+    public function testTheMethodIsAfterShouldReturnTrueIfATimeStringIsAfterInTimeFromTheGivenObject(
+        $before,
+        $after
+    ) {
+        $this->assertTrue((new DateTime($before))->isAfter(new DateTime($after)));
+    }
+
+    /**
+     * @dataProvider validAfterDateProvider
+     */
+    public function testTheMethodIsAfterShouldReturnTrueIfATimeStringIsNotAfterInTimeFromTheGivenObject(
+        $before,
+        $after
+    ) {
+        $this->assertFalse((new DateTime($after))->isAfter(new DateTime($before)));
+    }
+
+    public function validAfterDateProvider()
     {
         return [
-            [new DateTime(date("Y") . "-12-01"), new \DateTime("12/01")],
-            [new DateTime(date("Y") . "-12-01"), new \DateTime(date("Y") . "/12/01")],
-            [new DateTime(date("Y") . "-12-01"), new \DateTime(date("Y") . "-12-01")],
-            [new DateTime(date("Y") . "-12-01"), new \DateTime(date("Y") . "-12-01 00:00:00")],
-            [new DateTime(date("Y") . "-12-01"), new \DateTime(date("Y") . "-12-01 00:00:00.000000")],
-            [new DateTime("today"), new \DateTime("today")],
-            [new DateTime(), new \DateTime("now")],
-            [new DateTime("now"), new \DateTime("now")],
-            [new Datetime("tomorrow midnight"), new \DateTime("tomorrow")],
-            [new Datetime("tomorrow midnight"), new \DateTime("+1 day 00:00:00")],
-            [new Datetime("tomorrow noon"), new \DateTime("+1 day 12:00:00")],
-            [new Datetime("yesterday midnight"), new \DateTime("yesterday")],
-            [new Datetime("yesterday midnight"), new \DateTime("-1 day 00:00:00")],
-            [new Datetime("yesterday noon"), new \DateTime("-1 day 12:00:00")],
+            ["tomorrow", "today"],
+            ["today", "yesterday"],
+            ["February", "January"],
+            ["January 2014", "December 2013"],
+            ["January", "January 2000"],
+            ["2014-12-12 00:00:01", "2014-12-12 00:00:00"],
+            ["December 30th", "January 1st"],
+            ["10 seconds ago", "10 days ago"]
         ];
     }
 }

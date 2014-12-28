@@ -94,4 +94,15 @@ class DateTime extends \DateTime
 
         return ($this == $dateObject);
     }
+
+    public function isAfter($date)
+    {
+        if ($date instanceof \DateTime) {
+            return ($this > $date);
+        }
+
+        $dateObject = new DateTime($date);
+
+        return ($this > $dateObject);
+    }
 }
