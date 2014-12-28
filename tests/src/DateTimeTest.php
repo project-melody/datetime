@@ -12,7 +12,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
     
 
     /**
-     * @dataProvider provider
+     * @dataProvider datesWithoutHolidaysProvider
      */ 
     public function testAddBusinessDays($start, $businessDays, $expectedResult)
     {
@@ -23,7 +23,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @dataProvider providerWithHolidays
+     * @dataProvider datesWithHolidaysProvider
      */
     public function testAddBusinessDaysWithHolidays($start, $businessDays, $expectedResult) 
     {
@@ -49,7 +49,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
     }
 
     
-    public function providerWithHolidays()
+    public function datesWithHolidaysProvider()
     {
         return array(
             array('2012-09-20', 3, '2012-09-25'),
@@ -64,7 +64,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    public function provider()
+    public function datesWithoutHolidaysProvider()
     {
         return array(
             array('2012-09-20', 3, '2012-09-25'),
@@ -73,7 +73,51 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
             array('2012-09-20', 15, '2012-10-11'),
             array('2012-09-22', 9, '2012-10-04'),
         );
-
     }
 
+    /**
+     * @dataProvider validDatesComparisonProvider
+     */
+    public function testTheMethodIsShouldReturnTrueIfADatetimeObjectIsEqualsToAGivenStringConvertedToDatetime(
+        $first,
+        $second
+    ) {
+        $this->assertTrue($first->is($second));
+    }
+
+    public function validDatesComparisonProvider()
+    {
+        return [
+            [new DateTime(date("Y") . "-12-01"), "12/01"],
+            [new DateTime(date("Y") . "-12-01"), date("Y") . "/12/01"],
+            [new DateTime(date("Y") . "-12-01"), date("Y") . "-12-01"],
+            [new DateTime(date("Y") . "-12-01"), date("Y") . "-12-01 00:00:00"],
+            [new DateTime(date("Y") . "-12-01"), date("Y") . "-12-01 00:00:00.000000"],
+            [new DateTime("today"), "today"],
+            [new DateTime(), "now"],
+            [new DateTime("now"), "now"],
+            [new Datetime("tomorrow midnight"), "tomorrow"],
+            [new Datetime("tomorrow midnight"), "+1 day 00:00:00"],
+            [new Datetime("tomorrow noon"), "+1 day 12:00:00"],
+            [new Datetime("yesterday midnight"), "yesterday"],
+            [new Datetime("yesterday midnight"), "-1 day 00:00:00"],
+            [new Datetime("yesterday noon"), "-1 day 12:00:00"],
+        ];
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testAnInvalidArgumentExceptionShouldBeRaisedIfAnInvalidTimeStringIsPassed()
+    {
+        (new DateTime())->is("asdfg");
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testAnExceptionShouldBeRaisedIfAnObjectIsPassed()
+    {
+        (new DateTime())->is(new \stdClass());
+    }
 }

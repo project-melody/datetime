@@ -3,9 +3,9 @@
     "description": "PHP's DateTime extension",
     "type": "library",
     "license": "BSD Style",
-    "homepage": "https://github.com/leviferreira/melody-datetime",
+    "homepage": "https://github.com/project-melody/datetime",
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=5.4"
     },
     "authors": [
         {

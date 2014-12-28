@@ -70,4 +70,24 @@ class DateTime extends \DateTime
 
         $this->addBusinessDays($addDays, true);
     }
+
+    /**
+     * @param $dateInString
+     * @return bool
+     * @throws \InvalidArgumentException|\Exception
+     */
+    public function is($dateInString)
+    {
+        try {
+            $date = new DateTime($dateInString);
+        } catch (\Exception $e) {
+            if (strpos($e->getMessage(), "Failed to parse time string")) {
+                throw new \InvalidArgumentException("Failed to parse time string ($dateInString)");
+            }
+
+            throw $e;
+        }
+
+        return ($this == $date);
+    }
 }
