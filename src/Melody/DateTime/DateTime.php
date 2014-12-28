@@ -18,7 +18,7 @@ class DateTime extends \DateTime
 
     /**
      * Set Holidays
-     * @param array $holidays 
+     * @param array $holidays
      */
     public function setHolidays($holidays)
     {

@@ -1,19 +1,17 @@
 <?php
 
-
-use Melody\DateTime\DateTime;
+namespace Melody\Datetime;
 
 /**
  * Testing class DateTimeTest to test DateTime Extension Class
  *
  * @author Levi Henrique <contato@leviferreira.com>
  */
-class DateTimeTest extends \PHPUnit_Framework_TestCase {
-    
-
+class DateTimeTest extends \PHPUnit_Framework_TestCase
+{
     /**
      * @dataProvider datesWithoutHolidaysProvider
-     */ 
+     */
     public function testAddBusinessDays($start, $businessDays, $expectedResult)
     {
         $date = new DateTime($start);
@@ -25,7 +23,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase {
     /**
      * @dataProvider datesWithHolidaysProvider
      */
-    public function testAddBusinessDaysWithHolidays($start, $businessDays, $expectedResult) 
+    public function testAddBusinessDaysWithHolidays($start, $businessDays, $expectedResult)
     {
         $date = new DateTime($start);
         
