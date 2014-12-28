@@ -1,6 +1,6 @@
 <?php
 
-namespace Melody\Datetime;
+namespace Melody\DateTime;
 
 /**
  * Testing class DateTimeTest to test DateTime Extension Class
